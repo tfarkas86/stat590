@@ -58,14 +58,15 @@ which(bin.draws.0.5 == 5)
 dbinom(5, 10, 0.5) * 200 # 49
 ```
 
+Based on the theoretical binomial distribution, the probability of five positives is 24.6%, which multiplied by 200 is ~ 49 cases. 
 - **1c.** Find the mean and standard deviation of `bin.draws.0.5`. Is the mean close what you'd expect? The standard deviation?
 
 ```{r}
-mean(bin.draws.0.5) # mean = 5.08
-sd(bin.draws.0.5) # sd = 1.54
+mean(bin.draws.0.5) # mean = 5.145
+sd(bin.draws.0.5) # sd = 1.57
 ```
 
-The mean should be about 5, since 0.5 * 10 trials = 5 positives. Knowing the expected value of the binomial is $np$ confirms the intuition. I'm not sure about intuition for the sd, but the sd of the binomial is $\sqrt{np(1-p)} = \sqrt{10 \times 0.5 \times 0.5} \approx 1.58$, which is very close to 1.54. 
+The mean should be about 5, since 0.5 * 10 trials = 5 positives. Knowing the expected value of the binomial is $np$ confirms the intuition. I'm not sure about intuition for the sd, but the sd of the binomial is $\sqrt{np(1-p)} = \sqrt{10 \times 0.5 \times 0.5} \approx 1.58$, which is very close to 1.57. 
 
 - **1d.** Call `summary()` on `bin.draws.0.5` and describe the result.
 
@@ -73,7 +74,7 @@ The mean should be about 5, since 0.5 * 10 trials = 5 positives. Knowing the exp
 summary(bin.draws.0.5)
 ```
 
-The summary shows the minimum and maximum of the sample (2 and 9), along with the mean (= 5.08), and quartiles (4, 5, 6). I'm surprised there's no 1 or 10 in a sample of 200, but my intuition fails me often. 
+The summary shows the minimum and maximum of the sample (2 and 9), along with the mean (= 5.08), and quartiles (4, 5, 6). I'm surprised there's no 0s, 1s, or 10s in a sample of 200, but my intuition fails me often. 
 
 - **1e.** Find the data type of the elements in `bin.draws.0.5` using `typeof()`. Then convert `bin.draws.0.5` to a vector of characters, storing the result as `bin.draws.0.5.char`, and use `typeof()` again to verify that you've done the conversion correctly. Call `summary()` on `bin.draws.0.5.char`. Is the result formatted differently from what you saw above? Why?
 
@@ -136,7 +137,7 @@ unlist(map(bin_list, ~ mean(.x)))
 unlist(map(bin_list, ~ sd(.x)))
 ```
 
-Technically, these *are* vectors named as requested ... 
+Sorry, I couldn't help myself. Technically, these *are* vectors named as requested ... 
 
 - **3b.** We'd like to compare the properties of our vectors. Create a vector of length 7, whose entries are the means of the 7 vectors we've created, in order according to the success probabilities of their underlying binomial distributions (0.2 through 0.8).
 
@@ -165,11 +166,11 @@ g3 <- ggplot() +
 grid.arrange(g1, g2, g3)
 ```
 
-For the first plot, we see a near perfect, linear relationship, which makes sense because the expected value for a binomial is proportional to the probability ($E(X) = Np$).
+For the first plot, we see a near-perfect linear relationship, which makes sense because the expected value for a binomial is proportional to the probability ($E(X) = Np$).
 
 For the second plot, the relationship between standard devation and probability shows a symmetrical, convex curve. This also makes sense, because the variance follows this same pattern, with a peak at intermediate probability ($V(X) = np(1 - p)$.
 
-The third plot is almost identical to the second because of the near perfect linear relationship between probabilty and mean, as described above. 
+The third plot is almost identical to the second because of the aforementioned, near-perfect linear relationship between probabilty and mean. 
 
 
 
@@ -291,9 +292,9 @@ I see reasonably bell-shaped distribution for both variables, though volume appe
 plot(x = pros.dat[, "lcavol"], y = pros.dat[, "lweight"] )
 ```
 
-I think there's a weak positive relationship between the variables. I thin we should expect this relationship, since an increase in volume should lead to an increase in mass, assuming density is constant. 
+I think there's a weak positive relationship between the variables. I think we should expect this relationship, since an increase in volume should lead to an increase in mass, assuming density is constant. 
 
-I would measure the strength of this relationship with, an $R^2$ value, probably.
+I would measure the strength of this relationship with an $R^2$ value, probably.
 
 - **6b.** Produce scatterplots of log cancer weight versus age, and log cancer volume versus age. Do you see relationships here between the age of a patient and the volume/weight of his cancer?
 
@@ -304,7 +305,7 @@ plot(y = pros.dat[, "lweight"], x = pros.dat[, "age"], xlab = "age")
 dev.off()
 ```
 
-Yeesh, I think maybe a slight positive relationship in both cases, but I would bet much on it. The pattern seems maybe stronger for weight, possibly indicating that density increase with age.  
+Yeesh, I think maybe a slight positive relationship in both cases, but I wouldn't bet much on it. The pattern seems maybe stronger for weight, possibly indicating that density increase with age.  
 
 - **6c.** Produce a histogram of the log cancer density, and a scatterplot of the log cancer density versus age. Comment on any similarities/differences you see between these plots, and the corresponding ones you produced above for log cancer volume/weight.
 
