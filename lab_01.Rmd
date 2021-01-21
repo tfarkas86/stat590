@@ -318,22 +318,49 @@ plot(y = pros.dat[, "ldens"], x = pros.dat[, "age"],
 
 Again, the histogram shows a bell curve -- possible better than the curves for weight and volume. The relationship between age and density looks possibly posisblve, but is similarly weak comparing to weight and volume.
 
-
 A bit of Boolean indexing never hurt anyone
 ===
 
 - **7a.** The `svi` variable in the `pros.dat` matrix is binary: 1 if the patient had a condition called "seminal vesicle invasion" or SVI, and 0 otherwise. SVI (which means, roughly speaking, that the cancer invaded into the muscular wall of the seminal vesicle) is bad: if it occurs, then it is believed the prognosis for the patient is poorer, and even once/if recovered, the patient is more likely to have prostate cancer return in the future. Compute a Boolean vector called `has.svi`, of length 97, that has a `TRUE` element if a row (patient) in `pros.dat` has SVI, and `FALSE` otherwise. Then using `sum()`, figure out how many patients have SVI.
 
+```{r}
+has.svi <- as.logical(pros.dat[, "svi"])
+sum(has.svi)
+```
+
 - **7b.** Extract the rows of `pros.dat` that correspond to patients with SVI, and the rows that correspond to patients without it. Call the resulting matrices `pros.dat.svi` and `pros.dat.no.svi`, respectively. You can do this in two ways: using the `has.svi` Boolean vector created above, or using on-the-fly Boolean indexing, it's up to you. Check that the dimensions of `pros.dat.svi` and `pros.dat.no.svi` make sense to you.
 
+```{r}
+pros.dat.svi <- pros.dat[has.svi, ]
+pros.dat.no.svi <- pros.dat[!has.svi, ]
+dim(pros.dat.svi) # 21 x 12
+dim(pros.dat.no.svi) # 76 x 12
+```
 
 Computing standard deviations using iteration
 ===
 
 - **8a.** Take a look at the starter code below. The first line defines an empty vector `pros.dat.svi.sd` of length `ncol(pros.dat)`. The second line defines an index variable `i` and sets it equal to 1. Write a third line of code to compute the standard deviation of the `i`th column of `pros.dat.svi`, using a built-in R function, and store this value in the `i`th element of `pros.dat.svi.sd`. 
  
+```{r}
+pros.dat.svi.sd <- vector(mode = "numeric", length = ncol(pros.dat))
+i <- 1
+pros.dat.svi.sd[i] <- sd(pros.dat.svi[,i])
+```
 
 - **8b.** Write a `for()` loop to compute the standard deviations of the columns of `pros.dat.svi`, and store the results in the vectors `pros.dat.svi.sd`, that were created above. Note: you should have a single `for()` loop here, not two for loops. And if it helps, consider breaking this task down into two steps: as the first step, write a `for()` loop that iterates an index variable `i` over the integers between 1 and the number of columns of `pros.dat`, with an empty body. 
 
+```{r}
+pros.dat.svi.sd <- vector(mode = "numeric", length = ncol(pros.dat))
+for(i in 1:length(pros.dat.svi.sd)) pros.dat.svi.sd[i] <- sd(pros.dat.svi[, i])
+pros.dat.svi.sd
+```
+
+
 - **8c.** The code below computes the standard deviations of the columns of `pros.dat.svi`, and stores them in `pros.dat.svi.sd.master`, using `apply()`. (We'll learn `apply()` and related functions a bit later in the course.) Remove `eval=FALSE` as an option to the Rmd code chunk, and check using `all.equal()` that the standard deviations you computed in the previous question equal these "master" copies. Note: use `check.names=FALSE` as a third argument to `all.equal()`, which instructs it to ignore the names of its first two arguments. (If `all.equal()` doesn't succeed in both cases, then you must have done something wrong in computing the standard deviations, so go back and fix them!)
+
+```{r}
+pros.dat.svi.sd.master <- apply(pros.dat.svi, MARGIN = 2, FUN = sd)
+all.equal(pros.dat.svi.sd.master, pros.dat.svi.sd, check.names = FALSE)
+```
 
