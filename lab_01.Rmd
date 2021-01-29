@@ -260,9 +260,10 @@ pros.dat.sub <- pros.dat[, c("lcavol", "lweight")]
 - **5e.** Using the log cancer weights and log cancer volumes, calculate the log cancer density for the 97 men in the data set (note: by density here we mean weight divided by volume). There are in fact two different ways to do this; the first uses two function calls and one arithmetic operation; the second just uses one arithmetic operation. Note: in either case, you should be able to perform this computation for all 97 men *with a single line of code*, taking advantage of R's ability to vectorize. Write code to do it both ways, and show that both ways lead to the same answer, using `all.equal()`.
 
 ```{r}
-ldens1 <- pros.dat.sub[, "lcavol"] / pros.dat.sub[, "lweight"]
-# TODO: second approach 
-#all.equal(ldens1, ldens2)
+ldens1 <- log(exp(pros.dat.sub[, "lweight"]) /
+                exp(pros.dat.sub[, "lcavol"]))
+ldens2 <- pros.dat.sub[, "lweight"] - pros.dat.sub[, "lcavol"]
+all.equal(ldens1, ldens2)
 ```
 
 - **5f.** Append the log cancer density to the columns of `pros.dat`, using `cbind()`. Set the last column name to be `ldens`. Print its first 6 rows, to check that you've done all this right.
