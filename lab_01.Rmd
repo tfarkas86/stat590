@@ -2,6 +2,7 @@
 title: 'Lab 1: Data types, operators, variables, data structures, indexing, and iteration'
 author: "Statistical Computing"
 output:
+  pdf_document: default
   html_document:
     df_print: paged
 ---
@@ -58,7 +59,8 @@ which(bin.draws.0.5 == 5)
 dbinom(5, 10, 0.5) * 200 # 49
 ```
 
-Based on the theoretical binomial distribution, the probability of five positives is 24.6%, which multiplied by 200 is ~ 49 cases. 
+Based on the theoretical binomial distribution, the probability of five positives is 24.6%, which multiplied by 200 is ~ 49 cases.  
+
 - **1c.** Find the mean and standard deviation of `bin.draws.0.5`. Is the mean close what you'd expect? The standard deviation?
 
 ```{r}
